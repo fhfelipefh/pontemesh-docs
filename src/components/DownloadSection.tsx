@@ -49,7 +49,7 @@ export function DownloadSection() {
   return (
     <section className="download-section" id="download" aria-labelledby="download-title">
       <div className="page-shell">
-        <div className="download-heading">
+        <div className="download-heading motion-reveal">
           <div>
             <h2 id="download-title">{t('download.title')}</h2>
             <p>{t('download.description')}</p>
@@ -57,7 +57,7 @@ export function DownloadSection() {
           <ReleaseDownloadVisual />
         </div>
 
-        <div className="download-selectors">
+        <div className="download-selectors motion-reveal">
           <fieldset>
             <legend>{t('download.product')}</legend>
             <div className="selector-group selector-group--product">
@@ -76,9 +76,9 @@ export function DownloadSection() {
           </fieldset>
         </div>
 
-        <p className="platform-note"><span aria-hidden="true">→</span> {t('download.note')}</p>
+        <p className="platform-note motion-reveal"><span aria-hidden="true">→</span> {t('download.note')}</p>
 
-        <div className="download-panel" aria-live="polite">
+        <div className="download-panel motion-reveal" aria-live="polite">
           <div className="download-panel__package">
             <span>{t('download.selected')}</span>
             <strong>{productLabel}<br />{platformLabels[platform]} x64</strong>

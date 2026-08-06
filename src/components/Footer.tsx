@@ -13,7 +13,7 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="page-shell">
-        <div className="site-footer__links">
+        <div className="site-footer__links motion-reveal">
           <BrandMark />
           <nav aria-label={t('footer.navigation')}>
             {footerLinks.map(([label, href]) => <a key={label} href={href} target="_blank" rel="noreferrer">{label} <ArrowIcon /></a>)}

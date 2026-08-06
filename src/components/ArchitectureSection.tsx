@@ -6,12 +6,12 @@ export function ArchitectureSection() {
   return (
     <section className="architecture" id="architecture" aria-labelledby="architecture-title">
       <div className="page-shell">
-        <div className="section-intro">
+        <div className="section-intro motion-reveal">
           <h2 id="architecture-title">{t('architecture.title.1')}<br />{t('architecture.title.2')}</h2>
           <p>{t('architecture.description')}</p>
         </div>
 
-        <div className="architecture-flow">
+        <div className="architecture-flow motion-reveal">
           <article className="flow-endpoint flow-endpoint--origin">
             <ServerIcon />
             <h3>{t('architecture.origin')}</h3>
@@ -34,12 +34,12 @@ export function ArchitectureSection() {
           </article>
         </div>
 
-        <div className="flow-legend" aria-label="Architecture legend">
+        <div className="flow-legend motion-reveal" aria-label="Architecture legend">
           <span><i className="flow-legend__control" /> {t('architecture.control')}</span>
           <span><i className="flow-legend__data" /> {t('architecture.data')}</span>
         </div>
 
-        <div className="integration">
+        <div className="integration motion-reveal">
           <div className="integration__copy">
             <h2>{t('integration.title.1')}<br />{t('integration.title.2')}</h2>
             <p>{t('integration.description')}</p>

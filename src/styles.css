@@ -358,12 +358,10 @@ svg {
 .mesh-diagram__fragments rect {
   fill: var(--amber);
   opacity: .88;
-  animation: fragment-pulse 2.7s ease-in-out infinite alternate;
 }
 
 .mesh-diagram__fragments rect:nth-child(even) {
   fill: var(--mint);
-  animation-delay: .6s;
 }
 
 .mesh-node circle {
@@ -934,10 +932,6 @@ svg {
 :focus-visible {
   outline: 2px solid var(--mint);
   outline-offset: 4px;
-}
-
-@keyframes fragment-pulse {
-  to { opacity: .38; transform: translate(4px, 2px); }
 }
 
 @media (max-width: 1180px) {

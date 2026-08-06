@@ -75,7 +75,7 @@ const ptBR: Record<TranslationKey, string> = {
   'nav.toggle': 'Alternar navegação',
   'hero.title.1': 'Distribua por todos os',
   'hero.title.2': 'caminhos confiáveis.',
-  'hero.description': 'O Ponte Mesh combina um Origin autoritativo, nós Replica/Edge autenticados e peers autorizados — com integridade por fragmento e fallback automático incorporados.',
+  'hero.description': 'O Ponte Mesh combina um Origin autoritativo, nós Replica/Edge autenticados e peers autorizados com integridade por fragmento e fallback automático incorporados.',
   'hero.download': 'Download',
   'hero.architecture': 'Conheça a arquitetura',
   'hero.status': 'Servidor + SDK nativo',

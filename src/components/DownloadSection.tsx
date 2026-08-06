@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { platformLabels, products, type PlatformId, type ProductId } from '../config'
+import { platformLabels, platformPackageLabels, products, type PlatformId, type ProductId } from '../config'
 import { formatBytes, getLatestRelease, type ReleaseResult } from '../services/githubReleases'
 import { CodeIcon, DownloadIcon, ExternalIcon, ServerIcon } from './Icons'
 import { ReleaseDownloadVisual } from './ReleaseDownloadVisual'
@@ -7,7 +7,7 @@ import { useI18n } from '../i18n/useI18n'
 
 type LoadState = ReleaseResult | { status: 'loading' }
 
-const platforms: PlatformId[] = ['windows', 'linux', 'macos']
+const platforms: PlatformId[] = ['windows', 'linux', 'macos-intel', 'macos-arm']
 
 export function DownloadSection() {
   const { t } = useI18n()
@@ -81,7 +81,7 @@ export function DownloadSection() {
         <div className="download-panel motion-reveal" aria-live="polite">
           <div className="download-panel__package">
             <span>{t('download.selected')}</span>
-            <strong>{productLabel}<br />{platformLabels[platform]} x64</strong>
+            <strong>{productLabel}<br />{platformPackageLabels[platform]}</strong>
           </div>
           <div className="download-panel__status">
             <span>{t('download.status')}</span>

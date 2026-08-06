@@ -18,13 +18,14 @@ describe('DownloadSection', () => {
     expect(container.querySelector('.release-visual')).toBeInTheDocument()
   })
 
-  it('limits the server selection to Windows', async () => {
+  it('offers all supported server platforms', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(null, { status: 404 })))
     render(<I18nProvider><DownloadSection /></I18nProvider>)
 
     fireEvent.click(screen.getByRole('button', { name: 'Server' }))
-    await waitFor(() => expect(screen.getByRole('button', { name: 'Linux' })).toBeDisabled())
-    expect(screen.getByRole('button', { name: 'macOS' })).toBeDisabled()
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Linux' })).toBeEnabled())
+    expect(screen.getByRole('button', { name: 'macOS Intel' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'macOS ARM' })).toBeEnabled()
     expect(screen.getByRole('link', { name: 'View server releases' })).toHaveAttribute('href', 'https://github.com/fhfelipefh/pontemesh-server/releases')
   })
 

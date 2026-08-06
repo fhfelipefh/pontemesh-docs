@@ -754,7 +754,7 @@ svg {
 }
 
 .selector-group--product { grid-template-columns: 1fr 1fr; }
-.selector-group--platform { grid-template-columns: repeat(3, 1fr); }
+.selector-group--platform { grid-template-columns: repeat(4, 1fr); }
 
 .selector-group button {
   min-height: 62px;
@@ -1015,6 +1015,7 @@ svg {
   .integration { margin-top: 72px; padding-top: 58px; }
   .code-panel pre { padding: 22px; font-size: 11px; }
   .selector-group button { min-height: 58px; gap: 8px; font-size: 11px; }
+  .selector-group--platform { grid-template-columns: 1fr 1fr; }
   .selector-group button svg { width: 20px; }
   .download-panel { padding: 28px 22px; }
   .download-panel strong { font-size: 21px; }

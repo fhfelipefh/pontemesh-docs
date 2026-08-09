@@ -60,3 +60,10 @@ The SDK package includes the native library and the available C, C++, C# and Uni
 ## Official releases
 
 The website reads the latest GitHub Release directly from the official Server and SDK repositories. It selects the matching platform asset and exposes the accompanying SHA-256 checksum and release manifest. If no public release exists yet, it links to the corresponding official releases page without presenting a placeholder package.
+
+## Project links
+
+- [Ponte Mesh documentation](https://fhfelipefh.github.io/pontemesh-docs/)
+- [Ponte Mesh Server](https://github.com/fhfelipefh/pontemesh-server)
+- [Ponte Mesh SDK](https://github.com/fhfelipefh/pontemesh-sdk)
+- [Game Launcher Example](https://github.com/fhfelipefh/pontemesh-game-launcher-example)

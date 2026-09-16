@@ -7,6 +7,7 @@ export function Footer() {
   const footerLinks = [
     [t('footer.architecture'), 'https://github.com/fhfelipefh/pontemesh-server/blob/main/docs/ARCHITECTURE.md'],
     [t('footer.security'), 'https://github.com/fhfelipefh/pontemesh-server/blob/main/docs/SECURITY.md'],
+    [t('footer.mcp'), 'https://github.com/fhfelipefh/pontemesh-server/blob/main/docs/api/mcp.md'],
     [t('footer.sdk'), 'https://github.com/fhfelipefh/pontemesh-sdk'],
     [t('footer.server'), 'https://github.com/fhfelipefh/pontemesh-server'],
   ] as const

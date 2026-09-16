@@ -10,6 +10,7 @@ export function Header() {
   const navItems = [
     [t('nav.overview'), '#overview'],
     [t('nav.architecture'), '#architecture'],
+    [t('nav.features'), '#features'],
     [t('nav.download'), '#download'],
   ] as const
 

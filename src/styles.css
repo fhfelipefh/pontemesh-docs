@@ -619,23 +619,86 @@ svg {
   overflow: hidden;
 }
 
-.code-panel__header {
-  height: 58px;
+.flow-endpoint__badges {
   display: flex;
-  align-items: flex-end;
-  padding: 0 28px;
-  border-bottom: 1px solid #33404a;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
 }
 
-.code-panel__header span {
-  height: 100%;
+.flow-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.flow-badge--s3 {
+  background: rgba(96, 165, 250, .14);
+  border: 1px solid rgba(96, 165, 250, .3);
+  color: var(--amber-bright);
+}
+
+.flow-badge--mcp {
+  background: rgba(200, 166, 233, .14);
+  border: 1px solid rgba(200, 166, 233, .3);
+  color: #d8b4fe;
+}
+
+.flow-badge--p2p {
+  display: inline-block;
+  margin-bottom: 6px;
+  background: rgba(45, 212, 191, .14);
+  border: 1px solid rgba(45, 212, 191, .3);
+  color: var(--mint);
+}
+
+.code-panel__header {
+  min-height: 56px;
   display: flex;
   align-items: center;
-  padding: 0 4px;
-  color: var(--amber);
-  border-bottom: 3px solid var(--amber);
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-bottom: 1px solid #33404a;
+  background: rgba(6, 16, 25, .6);
+}
+
+.code-panel__tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.code-tab {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted);
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.code-tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, .04);
+}
+
+.code-tab--active {
+  color: var(--amber-bright);
+  background: rgba(96, 165, 250, .12);
+  border-color: rgba(96, 165, 250, .35);
+}
+
+.code-panel__lang {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
 }
 
 .code-panel pre {
@@ -651,6 +714,101 @@ svg {
 .syntax-keyword { color: var(--amber); }
 .syntax-string { color: #b4d779; }
 .syntax-call { color: #c8a6e9; }
+.syntax-comment { color: #64748b; font-style: italic; }
+
+.features-section {
+  padding: 64px 0 76px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.section-eyebrow {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(96, 165, 250, .1);
+  border: 1px solid rgba(96, 165, 250, .25);
+  color: var(--amber-bright);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
+  margin-top: 52px;
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  background: linear-gradient(180deg, rgba(17, 24, 39, .8) 0%, rgba(15, 23, 42, .6) 100%);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  backdrop-filter: blur(12px);
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(96, 165, 250, .45);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, .35);
+}
+
+.feature-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.feature-card__icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(96, 165, 250, .12);
+  border: 1px solid rgba(96, 165, 250, .24);
+  color: var(--amber-bright);
+}
+
+.feature-card__icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.feature-card__tag {
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: rgba(45, 212, 191, .08);
+  border: 1px solid rgba(45, 212, 191, .2);
+  color: var(--mint);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.feature-card__title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #f1f5f9;
+  line-height: 1.35;
+}
+
+.feature-card__description {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+  flex-grow: 1;
+}
 
 .download-section {
   padding: 42px 0 62px;

@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useI18n } from '../i18n/useI18n'
 import { ArrowIcon, PeerIcon, ServerIcon } from './Icons'
+import summaryChart from '../assets/benchmarks/fig_gcp_15_resumo_dashboard_executivo.png'
+import dctChart from '../assets/benchmarks/fig_gcp_01_dct_barras_comparativo.png'
+import volumeChart from '../assets/benchmarks/fig_gcp_08_volume_trafego_origem_vs_p2p_stacked.png'
 
 export function PerformanceSection() {
   const { t } = useI18n()
@@ -56,17 +59,17 @@ export function PerformanceSection() {
 
   const chartImages = {
     summary: {
-      src: '/benchmarks/fig_gcp_15_resumo_dashboard_executivo.png',
+      src: summaryChart,
       alt: 'Executive summary dashboard of empirical benchmarks',
       label: 'Summary Dashboard (2x2)',
     },
     dct: {
-      src: '/benchmarks/fig_gcp_01_dct_barras_comparativo.png',
+      src: dctChart,
       alt: 'Download Completion Time comparison chart',
       label: 'Download Completion Time (DCT)',
     },
     volume: {
-      src: '/benchmarks/fig_gcp_08_volume_trafego_origem_vs_p2p_stacked.png',
+      src: volumeChart,
       alt: 'Aggregated egress traffic vs local P2P traffic chart',
       label: 'Egress vs Local LAN Traffic',
     },

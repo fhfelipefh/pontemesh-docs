@@ -60,20 +60,17 @@ export function PerformanceSection() {
   const chartImages = {
     summary: {
       src: summaryChart,
-      alt: 'Executive summary dashboard of empirical benchmarks',
-      label: 'Summary Dashboard (2x2)',
+      labelKey: 'performance.tab.summary',
     },
     dct: {
       src: dctChart,
-      alt: 'Download Completion Time comparison chart',
-      label: 'Download Completion Time (DCT)',
+      labelKey: 'performance.tab.dct',
     },
     volume: {
       src: volumeChart,
-      alt: 'Aggregated egress traffic vs local P2P traffic chart',
-      label: 'Egress vs Local LAN Traffic',
+      labelKey: 'performance.tab.volume',
     },
-  }
+  } as const
 
   return (
     <section className="performance" id="performance" aria-labelledby="performance-title">
@@ -116,7 +113,7 @@ export function PerformanceSection() {
               <div className="scenario-item__header">
                 <span className="scenario-item__badge">
                   {s.isP2p ? <PeerIcon className="scenario-icon" /> : <ServerIcon className="scenario-icon" />}
-                  {s.isP2p ? 'P2P Mesh' : 'Direct Origin'}
+                  {s.isP2p ? t('performance.badge.p2p') : t('performance.badge.origin')}
                 </span>
                 <span className="scenario-item__offload">{t(s.offloadKey)}</span>
               </div>
@@ -125,7 +122,7 @@ export function PerformanceSection() {
 
               <div className="scenario-item__metrics">
                 <div className="metric-row">
-                  <span className="metric-row__label">Time (DCT):</span>
+                  <span className="metric-row__label">{t('performance.metric.time')}</span>
                   <span className="metric-row__val">{t(s.dctKey)}</span>
                 </div>
                 <div className="progress-bar-bg" aria-hidden="true">
@@ -133,7 +130,7 @@ export function PerformanceSection() {
                 </div>
 
                 <div className="metric-row">
-                  <span className="metric-row__label">Goodput:</span>
+                  <span className="metric-row__label">{t('performance.metric.throughput')}</span>
                   <span className="metric-row__val metric-row__val--speed">{t(s.speedKey)}</span>
                 </div>
               </div>
@@ -145,7 +142,7 @@ export function PerformanceSection() {
         <div className="benchmark-chart-viewer motion-reveal">
           <div className="chart-viewer__header">
             <div>
-              <h3>Benchmark Telemetry & Visualizations</h3>
+              <h3>{t('performance.charts.title')}</h3>
               <p>{t('performance.chart.caption')}</p>
             </div>
             <div className="chart-tabs">
@@ -156,7 +153,7 @@ export function PerformanceSection() {
                   className={`chart-tab${activeChart === key ? ' chart-tab--active' : ''}`}
                   onClick={() => setActiveChart(key)}
                 >
-                  {chartImages[key].label}
+                  {t(chartImages[key].labelKey)}
                 </button>
               ))}
             </div>
@@ -165,7 +162,7 @@ export function PerformanceSection() {
           <div className="chart-viewer__display">
             <img
               src={chartImages[activeChart].src}
-              alt={chartImages[activeChart].alt}
+              alt={t(chartImages[activeChart].labelKey)}
               className="chart-img"
               loading="lazy"
             />
@@ -177,7 +174,7 @@ export function PerformanceSection() {
               rel="noreferrer"
               className="button button--secondary"
             >
-              Open high-resolution chart (300 DPI) <ArrowIcon />
+              {t('performance.chart.open_hires')} <ArrowIcon />
             </a>
           </div>
         </div>

@@ -11,6 +11,7 @@ export function Header() {
     [t('nav.overview'), '#overview'],
     [t('nav.architecture'), '#architecture'],
     [t('nav.features'), '#features'],
+    [t('nav.performance'), '#performance'],
     [t('nav.download'), '#download'],
   ] as const
 

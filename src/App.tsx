@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { ArchitectureSection } from './components/ArchitectureSection'
+import { PerformanceSection } from './components/PerformanceSection'
 import { DownloadSection } from './components/DownloadSection'
 import { FeaturesSection } from './components/FeaturesSection'
 import { Footer } from './components/Footer'
@@ -17,6 +18,7 @@ export function App() {
       <Hero />
       <ArchitectureSection />
       <FeaturesSection />
+      <PerformanceSection />
       <DownloadSection />
       <Footer />
     </div>

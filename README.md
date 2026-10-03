@@ -13,11 +13,14 @@ The public website is available in English, Brazilian Portuguese, and Spanish. I
 Ponte Mesh combines centralized authority with decentralized delivery, providing high throughput while preventing unauthorized distribution:
 
 - **[Ponte Mesh Server](https://github.com/fhfelipefh/pontemesh-server)**: A unified, production-grade service running as an **Origin** or **Replica/Edge** according to persisted configuration. Built in Rust with Axum and PostgreSQL.
-  - **Origin Role**: Master control plane, object catalog, access authorization, temporary access package issuance, fragment manifest generation, metrics, audit logs, and ultimate fallback source.
+  - **Origin Role**: Master control plane, multi-drive object catalog, access authorization, temporary access package issuance, fragment manifest generation, software release versioning, egress telemetry, audit logs, and ultimate fallback source.
   - **Replica/Edge Role**: Stable auxiliary node that replicates authorized content subsets to accelerate delivery and reduce Origin egress.
-  - **S3-Compatible Storage API**: Dedicated listener (port 9000 by default) offering path-style object operations (`/{bucket}/{key}`), HTTP conditional requests (`ETag`, `If-None-Match`, `Cache-Control`), and S3 access key authentication.
-  - **Model Context Protocol (MCP) Server**: Built-in Streamable HTTP (`/mcp`) interface with JSON-RPC for AI assistants (e.g. Gemini Spark, Claude, AI developer agents). Implements multi-auth models including **OAuth 2.0** with **RFC 9728** (Protected Resource Metadata), **RFC 8414**, **RFC 7591**, **RFC 7636 (PKCE)**, and Client Credentials Grant, as well as static Bearer tokens. Includes 20 specialized tools for storage management, configuration, and diagnostics.
-  - **Operational Metrics & Observability**: Prometheus metrics endpoint, web dashboard with time-period filters (1h, 24h, 7d, 30d), and structured audit trails.
+  - **Multi-Drive Storage Pools & Zero-Downtime Hot-Drain**: Dynamic storage pooling across multiple physical mount points without LVM/RAID complexity. Features independent per-drive DiskGuard telemetry, intelligent write allocation (`MOST_AVAILABLE_FREE_SPACE`, `ROUND_ROBIN`), write overflow failover, and cryptographic SHA-256 hot-drain for online drive swaps.
+  - **Software Release Versioning & Launcher Security**: Dedicated low-overhead update check endpoint (`GET /pontemesh/updates/...`) supporting SemVer, Build Number, Channel, and Tag schemes, coupled with least-privilege `launcher` application credentials for desktop game clients.
+  - **Consolidated Egress Offload Telemetry & Cloud Savings**: Unified telemetry calculating origin bandwidth relief across P2P and Replica paths, with automated cloud cost savings estimates ($0.08/GB benchmark), web console efficiency dashboards, and dedicated MCP streaming resources.
+  - **S3-Compatible Storage API**: Dedicated listener (port 9000 by default) offering path-style object operations (`/{bucket}/{key}`), SigV4 query canonicalization, HTTP conditional requests (`ETag`, `If-None-Match`, `Cache-Control`), and S3 access key authentication.
+  - **Model Context Protocol (MCP) Server**: Built-in Streamable HTTP (`/mcp`) interface with JSON-RPC for AI assistants (e.g. Gemini Spark, Claude, AI developer agents). Implements multi-auth models including **OAuth 2.0** with **RFC 9728** (Protected Resource Metadata), **RFC 8414**, **RFC 7591**, **RFC 7636 (PKCE)**, and Client Credentials Grant, as well as static Bearer tokens. Includes 27 specialized operational tools, live streaming resources, guided prompts, and the `setup-agent` CLI.
+  - **Operational Metrics & Observability**: Prometheus metrics endpoint, consolidated egress offload statistics, web dashboard with time-period filters (1h, 24h, 7d, 30d, all), and structured audit trails.
 - **[Ponte Mesh SDK](https://github.com/fhfelipefh/pontemesh-sdk)**: Native, high-performance client library published on [crates.io as `pontemesh-sdk-core`](https://crates.io/crates/pontemesh-sdk-core).
   - **Disk-Streaming Engine**: Streams fragments directly to disk via temporary files, checks per-fragment SHA-256 integrity against the manifest, and swaps files atomically. If a transfer is interrupted, previously validated fragments remain in persistent cache and do not need to be re-downloaded.
   - **Modern P2P Transport**: Peer-to-peer data plane built on **libp2p** with **Noise** encryption, **Yamux** stream multiplexing, and **CBOR** serialization for secure, firewall-resilient fragment exchange.
@@ -95,6 +98,40 @@ aws --endpoint-url http://localhost:9000 s3api put-object \
   --key maps/desert-v3.pak \
   --body ./desert-v3.pak
 ```
+
+#### Multi-Drive Storage Pools & Hot-Drain
+
+Operators can attach multiple disks or mount points in `instance.toml` without LVM or RAID setups:
+
+```toml
+[storage.local]
+path = "/var/lib/pontemesh/storage" # Primary drive (default)
+extra_paths = [
+    "/mnt/nvme-drive2",
+    "/mnt/storage-drive3"
+]
+allocation_strategy = "MOST_AVAILABLE_FREE_SPACE" # Options: MOST_AVAILABLE_FREE_SPACE, ROUND_ROBIN
+```
+
+- **Per-Drive DiskGuard**: Monitors health and free space independently per mount point. If a drive becomes full, incoming writes automatically overflow to healthy drives.
+- **Zero-Downtime Hot-Drain**: To replace or retire a disk, operators trigger drive evacuation via API (`POST /api/admin/storage/drives/{drive_id}/drain`), the web console, or MCP (`pontemesh_drain_storage_drive`). Objects are migrated in the background with cryptographic SHA-256 validation and atomic catalog updates before the drive is detached.
+
+#### Software Release Versioning & Launcher Verification
+
+Game launchers and client applications can query updates with near-zero latency and no catalog overhead:
+
+```http
+GET /pontemesh/updates/{bucket_name}/{software_id}?current={version}
+```
+
+Buckets configure an immutable `release_versioning_scheme` (`SEMVER`, `BUILD_NUMBER`, `CHANNEL`, `TAG`). Launchers connect using hyper-scoped credentials created with the `launcher` preset, which grants update checking and fragment access without write privileges or catalog exposure.
+
+#### Consolidated Egress Offload Telemetry
+
+Monitor origin server protection and cloud bandwidth cost reduction via `GET /api/admin/metrics/offload`:
+
+- Reports `total_bytes_demanded`, `origin_offload_bytes`, and ratio percentages across P2P and Replica distribution.
+- Computes real-time monetary ROI and estimated cloud egress savings based on industry-standard public bandwidth benchmarks ($0.08/GB).
 
 ---
 
@@ -183,11 +220,24 @@ Ponte Mesh Server includes a native MCP implementation over Streamable HTTP (`PO
 ### Supported Features
 - **Multi-Auth Models**: `hybrid` (Bearer tokens + OAuth 2.0), `oauth2` (pure OAuth 2.0 with PKCE and Client Credentials), and `token` (static pre-shared Bearer).
 - **Gemini Spark & AI Agents**: Full compliance with RFC 9728 (Protected Resource Metadata at `/.well-known/oauth-protected-resource/mcp`) and RFC 8414.
-- **20 Operational Tools**:
-  - *Read*: `pontemesh_get_instance_status`, `pontemesh_get_storage_summary`, `pontemesh_list_buckets`, `pontemesh_get_bucket`, `pontemesh_list_objects`, `pontemesh_get_object_metadata`, `pontemesh_get_health`, `pontemesh_get_recent_audit_events`, `pontemesh_export_configuration`, `pontemesh_get_ai_connection_guide`.
-  - *Write* (guarded by `writeToolsEnabled` on Origin): `pontemesh_create_bucket`, `pontemesh_delete_bucket`, `pontemesh_put_text_object`, `pontemesh_put_base64_object`, `pontemesh_delete_object`.
-  - *Admin* (guarded by `adminToolsEnabled` on Origin): `pontemesh_update_bucket_policy`, `pontemesh_import_configuration`, `pontemesh_list_credentials`, `pontemesh_create_application_credential`, `pontemesh_create_s3_access_key`.
-- **Resources**: `pontemesh://instance/status`, `pontemesh://storage/summary`, `pontemesh://buckets`, `pontemesh://buckets/{bucket}/objects`, etc.
+- **27 Operational Tools**:
+  - *Read (15 tools)*: `pontemesh_get_instance_status`, `pontemesh_get_storage_summary`, `pontemesh_list_buckets`, `pontemesh_get_bucket`, `pontemesh_get_bucket_policy`, `pontemesh_check_software_update`, `pontemesh_list_objects`, `pontemesh_get_object_metadata`, `pontemesh_get_health`, `pontemesh_get_recent_audit_events`, `pontemesh_export_configuration`, `pontemesh_get_ai_connection_guide`, `pontemesh_speed_test`, `pontemesh_get_offload_metrics`, `pontemesh_list_storage_drives`.
+  - *Write (5 tools, guarded by `writeToolsEnabled` on Origin)*: `pontemesh_create_bucket`, `pontemesh_delete_bucket`, `pontemesh_put_text_object`, `pontemesh_put_base64_object`, `pontemesh_delete_object`.
+  - *Admin (7 tools, guarded by `adminToolsEnabled` on Origin)*: `pontemesh_update_bucket_policy`, `pontemesh_import_configuration`, `pontemesh_list_credentials`, `pontemesh_create_application_credential` (with `launcher` preset), `pontemesh_create_s3_access_key`, `pontemesh_add_storage_drive`, `pontemesh_drain_storage_drive`.
+- **Live Streaming Resources**:
+  - `pontemesh://instance/status` and `pontemesh://instance/health`: Instance operating status and system health.
+  - `pontemesh://storage/summary` and `pontemesh://storage/drives`: Storage utilization and per-drive pool health.
+  - `pontemesh://buckets`, `pontemesh://buckets/{bucket}`, `pontemesh://buckets/{bucket}/policy`, and `pontemesh://buckets/{bucket}/objects`: Bucket topology, policies, and object indexes.
+  - `pontemesh://audit/recent`: Structured operational audit log trail.
+  - `pontemesh://metrics/offload`: Real-time egress offload efficiency, breakdown, and estimated cloud savings.
+- **Guided AI Prompts**:
+  - `diagnose_instance`: Diagnoses operational health and recent events.
+  - `summarize_storage`: Analyzes storage volume and pool disk usage.
+  - `analyze_bucket_growth`: Evaluates bucket expansion and content distributions.
+  - `review_recent_errors`: Audits recent failures and access anomalies.
+  - `check_software_releases`: Inspects release schemes and client software updates.
+  - `analyze_egress_offload`: Evaluates hybrid distribution offload rates and cloud savings.
+  - `manage_storage_drives`: Guides drive pool expansion and hot-drain replacement.
 
 ---
 

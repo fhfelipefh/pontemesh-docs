@@ -19,6 +19,7 @@ export function ArchitectureSection() {
             <div className="flow-endpoint__badges">
               <span className="flow-badge flow-badge--s3">{t('architecture.badge.s3')}</span>
               <span className="flow-badge flow-badge--mcp">{t('architecture.badge.mcp')}</span>
+              <span className="flow-badge flow-badge--pools">{t('architecture.badge.pools')}</span>
             </div>
             <ServerIcon />
             <h3>{t('architecture.origin')}</h3>

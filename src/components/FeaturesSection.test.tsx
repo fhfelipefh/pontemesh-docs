@@ -12,6 +12,9 @@ describe('FeaturesSection', () => {
     )
 
     expect(screen.getByText('S3-Compatible Object Storage')).toBeInTheDocument()
+    expect(screen.getByText('Multi-Drive Storage Pools & Hot-Drain')).toBeInTheDocument()
+    expect(screen.getByText('Consolidated Egress Offload & Cloud Savings')).toBeInTheDocument()
+    expect(screen.getByText('Software Release Versioning & Launcher Security')).toBeInTheDocument()
     expect(screen.getByText('Model Context Protocol (MCP)')).toBeInTheDocument()
     expect(screen.getByText('libp2p + Noise + Yamux P2P Stack')).toBeInTheDocument()
     expect(screen.getByText('Native Embeddable SDK Core')).toBeInTheDocument()

@@ -142,3 +142,33 @@ export function LayersIcon(props: IconProps) {
   )
 }
 
+export function HardDriveIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <rect x="3" y="4" width="18" height="6" rx="2" stroke="currentColor" strokeWidth="1.7" />
+      <rect x="3" y="14" width="18" height="6" rx="2" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="7" cy="7" r="1" fill="currentColor" />
+      <circle cx="7" cy="17" r="1" fill="currentColor" />
+      <path d="M17 7h.01M17 17h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function TrendingUpIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path d="m22 7-8.5 8.5-5-5L2 17" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 7h6v6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+export function TagIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path d="M12 2H2v10l10 10 10-10L12 2Z" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="7" cy="7" r="1.5" fill="currentColor" />
+    </svg>
+  )
+}
+

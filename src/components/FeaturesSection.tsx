@@ -1,4 +1,14 @@
-import { ActivityIcon, BrainIcon, DatabaseIcon, LayersIcon, NetworkIcon, ShieldCheckIcon } from './Icons'
+import {
+  ActivityIcon,
+  BrainIcon,
+  DatabaseIcon,
+  HardDriveIcon,
+  LayersIcon,
+  NetworkIcon,
+  ShieldCheckIcon,
+  TagIcon,
+  TrendingUpIcon,
+} from './Icons'
 import { useI18n } from '../i18n/useI18n'
 
 export function FeaturesSection() {
@@ -11,6 +21,27 @@ export function FeaturesSection() {
       tag: t('features.s3.tag'),
       title: t('features.s3.title'),
       description: t('features.s3.description'),
+    },
+    {
+      id: 'storage',
+      icon: <HardDriveIcon />,
+      tag: t('features.storage.tag'),
+      title: t('features.storage.title'),
+      description: t('features.storage.description'),
+    },
+    {
+      id: 'offload',
+      icon: <TrendingUpIcon />,
+      tag: t('features.offload.tag'),
+      title: t('features.offload.title'),
+      description: t('features.offload.description'),
+    },
+    {
+      id: 'releases',
+      icon: <TagIcon />,
+      tag: t('features.releases.tag'),
+      title: t('features.releases.title'),
+      description: t('features.releases.description'),
     },
     {
       id: 'mcp',
@@ -53,8 +84,10 @@ export function FeaturesSection() {
     <section className="features-section" id="features" aria-labelledby="features-title">
       <div className="page-shell">
         <div className="section-intro motion-reveal">
-          <span className="section-eyebrow">{t('features.heading')}</span>
-          <h2 id="features-title">{t('features.title.1')}<br />{t('features.title.2')}</h2>
+          <div className="section-intro__header">
+            <span className="section-eyebrow">{t('features.heading')}</span>
+            <h2 id="features-title">{t('features.title.1')}<br />{t('features.title.2')}</h2>
+          </div>
           <p>{t('features.description')}</p>
         </div>
 

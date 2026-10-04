@@ -132,6 +132,59 @@ Monitor origin server protection and cloud bandwidth cost reduction via `GET /ap
 
 - Reports `total_bytes_demanded`, `origin_offload_bytes`, and ratio percentages across P2P and Replica distribution.
 - Computes real-time monetary ROI and estimated cloud egress savings based on industry-standard public bandwidth benchmarks ($0.08/GB).
+#### CI/CD & Automated Delivery with GitHub Actions (Zero GitHub Storage)
+
+<details>
+<summary><strong>Click to expand GitHub Actions release pipeline guide</strong></summary>
+
+Distribute desktop application installers (`.exe`, `.msi`) and software updates exclusively through Ponte Mesh S3 object storage without consuming costly GitHub Release asset storage.
+
+##### Required GitHub Secrets (Repository Settings &rarr; Secrets and variables &rarr; Actions)
+- `PONTEMESH_ORIGIN_URL`: Public HTTPS URL of your Ponte Mesh Origin server (e.g. `https://origin.example.com`).
+- `PONTEMESH_MCP_TOKEN`: Bearer token for the Model Context Protocol endpoint (`pm_mcp_...`), used to request short-lived S3 access credentials dynamically during workflow execution.
+- `PONTEMESH_APPLICATION_TOKEN`: Client application credential (`pm_app_...`) created with the `launcher` preset to verify update resolution endpoints.
+- `PONTEMESH_UPDATE_BUCKET`: Target storage bucket configured with a release versioning scheme (e.g. `app-updates`).
+
+##### Workflow Example (`.github/workflows/release.yml`)
+```yaml
+name: Release Windows
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    timeout-minutes: 30 # Guard against pipeline timeout leaks
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Publish to Ponte Mesh (Exclusive Distribution)
+        timeout-minutes: 10
+        env:
+          PONTEMESH_ORIGIN_URL: ${{ secrets.PONTEMESH_ORIGIN_URL }}
+          PONTEMESH_MCP_TOKEN: ${{ secrets.PONTEMESH_MCP_TOKEN }}
+          PONTEMESH_APPLICATION_TOKEN: ${{ secrets.PONTEMESH_APPLICATION_TOKEN }}
+          PONTEMESH_UPDATE_BUCKET: ${{ secrets.PONTEMESH_UPDATE_BUCKET || 'app-updates' }}
+        run: |
+          node scripts/publish-pontemesh-release.cjs
+
+      - name: Publish GitHub Release (Tag & Notes Only - Zero GitHub Storage)
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          # Binaries are distributed exclusively via Ponte Mesh
+```
+
+##### Key Highlights
+1. **Dynamic Ephemeral S3 Credentials**: Calling the MCP tool `pontemesh_create_s3_access_key` using `PONTEMESH_MCP_TOKEN` dynamically generates temporary, isolated S3 credentials during the build.
+2. **SigV4 Upload**: Binaries are transferred over TLS directly to the Ponte Mesh S3 endpoint using AWS SigV4 signed requests.
+3. **Atomic Catalog Verification**: The manifest (`release.json`) and executable objects are validated in the catalog (`pontemesh_list_objects`) and checked via `GET /pontemesh/updates/...`.
+4. **Zero GitHub Storage**: Release notes and git tags are maintained on GitHub, while large binary installers (tens or hundreds of megabytes) are hosted on Ponte Mesh.
+</details>
 
 ---
 

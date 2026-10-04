@@ -728,6 +728,84 @@ svg {
 .syntax-call { color: #c8a6e9; }
 .syntax-comment { color: #64748b; font-style: italic; }
 
+.cicd-expandable {
+  margin-top: 24px;
+  background: rgba(7, 17, 26, 0.75);
+  border: 1px solid #3b4750;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.cicd-expandable[open] {
+  border-color: #f59e0b;
+  background: #07111a;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+
+.cicd-expandable__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+.cicd-expandable__summary::-webkit-details-marker {
+  display: none;
+}
+
+.cicd-expandable__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--fg);
+  font-size: 14px;
+}
+
+.cicd-expandable__hint {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.cicd-expandable__content {
+  padding: 16px 20px 20px;
+  border-top: 1px solid #23303a;
+  color: #c9d1d9;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.cicd-table {
+  width: 100%;
+  margin: 16px 0;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.cicd-table th,
+.cicd-table td {
+  padding: 8px 12px;
+  border: 1px solid #2d3b45;
+  text-align: left;
+}
+
+.cicd-table th {
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--amber-bright);
+}
+
+.cicd-table code {
+  color: var(--amber);
+  font-family: var(--mono);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
 .features-section {
   padding: 64px 0 76px;
   border-top: 1px solid var(--line-soft);

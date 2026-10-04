@@ -4,7 +4,7 @@ import { useI18n } from '../i18n/useI18n'
 
 export function ArchitectureSection() {
   const { t } = useI18n()
-  const [codeTab, setCodeTab] = useState<'disk' | 'sync'>('disk')
+  const [codeTab, setCodeTab] = useState<'disk' | 'sync' | 'cicd'>('disk')
 
   return (
     <section className="architecture" id="architecture" aria-labelledby="architecture-title">
@@ -83,8 +83,19 @@ export function ArchitectureSection() {
                 >
                   {t('integration.tab.sync')}
                 </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={codeTab === 'cicd'}
+                  className={`code-tab${codeTab === 'cicd' ? ' code-tab--active' : ''}`}
+                  onClick={() => setCodeTab('cicd')}
+                >
+                  {t('integration.tab.cicd')}
+                </button>
               </div>
-              <span className="code-panel__lang">Rust (crates.io)</span>
+              <span className="code-panel__lang">
+                {codeTab === 'cicd' ? 'GitHub Actions (YAML)' : 'Rust (crates.io)'}
+              </span>
             </div>
             {codeTab === 'disk' ? (
               <pre><code><span className="syntax-keyword">use</span> pontemesh_sdk_core::&#123;<br />
@@ -106,7 +117,7 @@ export function ArchitectureSection() {
                 {'    '}None, <span className="syntax-comment">// progress callback</span><br />
                 {'    '}cancellation,<br />
                 )?;</code></pre>
-            ) : (
+            ) : codeTab === 'sync' ? (
               <pre><code><span className="syntax-keyword">use</span> pontemesh_sdk_core::&#123;<br />
                 {'    '}p2p::P2pConfig, PontemeshClient,<br />
                 {'    '}PontemeshClientConfig, SyncObjectRequest,<br />
@@ -121,9 +132,79 @@ export function ArchitectureSection() {
                 {'    '}key: <span className="syntax-string">&quot;config/patch.json&quot;</span>.into(),<br />
                 {'    '}destination: <span className="syntax-string">&quot;./config/patch.json&quot;</span>.into(),<br />
                 &#125;)?;</code></pre>
+            ) : (
+              <pre><code><span className="syntax-comment"># .github/workflows/release.yml</span><br />
+                <span className="syntax-keyword">name</span>: Release<br />
+                <span className="syntax-keyword">jobs</span>:<br />
+                {'  '}<span className="syntax-keyword">build-and-release</span>:<br />
+                {'    '}<span className="syntax-keyword">runs-on</span>: windows-latest<br />
+                {'    '}<span className="syntax-keyword">timeout-minutes</span>: 30 <span className="syntax-comment"># timeout guard</span><br />
+                {'    '}<span className="syntax-keyword">steps</span>:<br />
+                {'      '}- <span className="syntax-keyword">uses</span>: actions/checkout@v4<br />
+                {'      '}- <span className="syntax-keyword">name</span>: Build Application<br />
+                {'        '}<span className="syntax-keyword">run</span>: npm run build<br />
+                {'      '}- <span className="syntax-keyword">name</span>: Publish to Ponte Mesh<br />
+                {'        '}<span className="syntax-keyword">timeout-minutes</span>: 10<br />
+                {'        '}<span className="syntax-keyword">env</span>:<br />
+                {'          '}<span className="syntax-keyword">PONTEMESH_ORIGIN_URL</span>: <span className="syntax-string">&quot;${'{'}{'{'} secrets.PONTEMESH_ORIGIN_URL {'}'}{'}'}&quot;</span><br />
+                {'          '}<span className="syntax-keyword">PONTEMESH_MCP_TOKEN</span>: <span className="syntax-string">&quot;${'{'}{'{'} secrets.PONTEMESH_MCP_TOKEN {'}'}{'}'}&quot;</span><br />
+                {'          '}<span className="syntax-keyword">PONTEMESH_APPLICATION_TOKEN</span>: <span className="syntax-string">&quot;${'{'}{'{'} secrets.PONTEMESH_APPLICATION_TOKEN {'}'}{'}'}&quot;</span><br />
+                {'          '}<span className="syntax-keyword">PONTEMESH_UPDATE_BUCKET</span>: <span className="syntax-string">&quot;app-updates&quot;</span><br />
+                {'        '}<span className="syntax-keyword">run</span>: node scripts/publish-pontemesh-release.cjs<br />
+                {'      '}- <span className="syntax-keyword">name</span>: GitHub Release (0 bytes storage)<br />
+                {'        '}<span className="syntax-keyword">uses</span>: softprops/action-gh-release@v2<br />
+                {'        '}<span className="syntax-keyword">with</span>:<br />
+                {'          '}<span className="syntax-keyword">generate_release_notes</span>: true</code></pre>
             )}
           </div>
         </div>
+
+        <details className="cicd-expandable motion-reveal">
+          <summary className="cicd-expandable__summary">
+            <div className="cicd-expandable__title">
+              <span className="flow-badge flow-badge--pools">CI/CD &amp; Release</span>
+              <strong>{t('cicd.summary.title')}</strong>
+            </div>
+            <span className="cicd-expandable__hint">{t('cicd.summary.hint')}</span>
+          </summary>
+          <div className="cicd-expandable__content">
+            <p>{t('cicd.description')}</p>
+            <table className="cicd-table">
+              <thead>
+                <tr>
+                  <th>Secret</th>
+                  <th>{t('cicd.table.description')}</th>
+                  <th>{t('cicd.table.example')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>PONTEMESH_ORIGIN_URL</code></td>
+                  <td>{t('cicd.secrets.originUrl')}</td>
+                  <td><code>https://origin.example.com</code></td>
+                </tr>
+                <tr>
+                  <td><code>PONTEMESH_MCP_TOKEN</code></td>
+                  <td>{t('cicd.secrets.mcpToken')}</td>
+                  <td><code>pm_mcp_...</code></td>
+                </tr>
+                <tr>
+                  <td><code>PONTEMESH_APPLICATION_TOKEN</code></td>
+                  <td>{t('cicd.secrets.appToken')}</td>
+                  <td><code>pm_app_...</code></td>
+                </tr>
+                <tr>
+                  <td><code>PONTEMESH_UPDATE_BUCKET</code></td>
+                  <td>{t('cicd.secrets.updateBucket')}</td>
+                  <td><code>app-updates</code></td>
+                </tr>
+              </tbody>
+            </table>
+            <p style={{ marginTop: '12px', fontSize: '12px', color: 'var(--muted)' }}>
+              {t('cicd.note')}
+            </p>
+          </div>
+        </details>
       </div>
     </section>
   )

@@ -297,7 +297,7 @@ Ponte Mesh Server includes a native MCP implementation over Streamable HTTP (`PO
 ## Official Releases
 
 The website reads the latest GitHub Releases directly from the official Server and SDK repositories:
-- Packages are automatically provided for **Windows x64**, **Linux x64**, **macOS Intel (x64)**, and **macOS ARM (Apple Silicon)**.
+- Packages are automatically provided for **Windows x64**, **Linux x64**, **Linux ARM64** (SDK), **macOS Intel (x64)**, and **macOS ARM (Apple Silicon)**.
 - Every release includes accompanying SHA-256 checksums and release manifests for verification.
 
 ---

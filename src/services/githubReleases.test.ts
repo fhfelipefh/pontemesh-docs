@@ -5,6 +5,8 @@ import { findPlatformAsset, formatBytes, getLatestRelease, type ReleaseAsset } f
 const assets: ReleaseAsset[] = [
   { name: 'pontemesh-sdk-v1.2.3-linux-x64.tar.gz.sha256', browser_download_url: 'checksum', size: 64 },
   { name: 'pontemesh-sdk-v1.2.3-linux-x64.tar.gz', browser_download_url: 'linux', size: 4_200_000 },
+  { name: 'pontemesh-sdk-v1.2.3-linux-arm64.tar.gz.sha256', browser_download_url: 'checksum-arm', size: 64 },
+  { name: 'pontemesh-sdk-v1.2.3-linux-arm64.tar.gz', browser_download_url: 'linux-arm', size: 4_100_000 },
   { name: 'pontemesh-sdk-v1.2.3-windows-x64.zip', browser_download_url: 'windows', size: 5_300_000 },
   { name: 'pontemesh-sdk-v1.2.3-macos-x64.tar.gz', browser_download_url: 'macos-intel', size: 4_800_000 },
   { name: 'pontemesh-sdk-v1.2.3-macos-arm64.tar.gz', browser_download_url: 'macos-arm', size: 4_600_000 },
@@ -13,6 +15,7 @@ const assets: ReleaseAsset[] = [
 describe('GitHub release helpers', () => {
   it('selects the archive and ignores its checksum', () => {
     expect(findPlatformAsset(assets, 'linux')?.browser_download_url).toBe('linux')
+    expect(findPlatformAsset(assets, 'linux-arm')?.browser_download_url).toBe('linux-arm')
     expect(findPlatformAsset(assets, 'macos-intel')?.browser_download_url).toBe('macos-intel')
     expect(findPlatformAsset(assets, 'macos-arm')?.browser_download_url).toBe('macos-arm')
   })

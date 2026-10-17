@@ -975,7 +975,7 @@ svg {
 
 .download-selectors {
   display: grid;
-  grid-template-columns: .78fr 1.22fr;
+  grid-template-columns: .65fr 1.35fr;
   gap: 30px;
   margin-top: 32px;
 }
@@ -1005,20 +1005,21 @@ svg {
 }
 
 .selector-group--product { grid-template-columns: 1fr 1fr; }
-.selector-group--platform { grid-template-columns: repeat(4, 1fr); }
+.selector-group--platform { grid-template-columns: repeat(5, 1fr); }
 
 .selector-group button {
   min-height: 62px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 10px;
+  padding: 0 8px;
   color: #bbbdbb;
   border: 0;
   border-right: 1px solid #46515a;
   background: transparent;
   font-family: var(--mono);
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   transition: background .2s ease, color .2s ease;
 }
@@ -1532,6 +1533,10 @@ svg {
   .code-panel pre { padding: 22px; font-size: 11px; }
   .selector-group button { min-height: 58px; gap: 8px; font-size: 11px; }
   .selector-group--platform { grid-template-columns: 1fr 1fr; }
+  .selector-group--platform button:nth-child(2n) { border-right: 0; }
+  .selector-group--platform button:not(:last-child):not(:nth-last-child(2)) { border-bottom: 1px solid #46515a; }
+  .selector-group--platform button:nth-last-child(2) { border-bottom: 1px solid #46515a; }
+  .selector-group--platform button:last-child { grid-column: span 2; border-right: 0; }
   .selector-group button svg { width: 20px; }
   .download-panel { padding: 28px 22px; }
   .download-panel strong { font-size: 21px; }

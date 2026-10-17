@@ -7,7 +7,7 @@ import { useI18n } from '../i18n/useI18n'
 
 type LoadState = ReleaseResult | { status: 'loading' }
 
-const platforms: PlatformId[] = ['windows', 'linux', 'macos-intel', 'macos-arm']
+const platforms: PlatformId[] = ['windows', 'linux', 'linux-arm', 'macos-intel', 'macos-arm']
 
 export function DownloadSection() {
   const { t } = useI18n()
